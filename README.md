@@ -52,11 +52,11 @@ The assembly was done with [SPAdes v4.0.0](https://ablab.github.io/spades/) usin
 ```
 % spades.py --isolate -1 [read1] -2 [read2] -o [output] --threads [threads] -k 21,35,55,71,91,111 --cov-cutoff auto
 
---isolate: This flag is highly recommended for high-coverage isolate and multi-cell Illumina data; improves the assembly quality and running time. We also recommend trimming your reads prior to the assembly. This option is not compatible with --only-error-correction or --careful options.
+--isolate: This flag is highly recommended for high-coverage isolate and multi-cell Illumina data; improves the assembly quality and running time.
 
 --cov-cutoff: Read coverage cutoff value. Must be a positive float value, or "auto", or "off". Default value is "off". When set to "auto" SPAdes automatically computes coverage threshold using conservative strategy.
 ```
-[More details on --cov-cutoff parameter (this should be handled with care](https://github.com/ablab/spades/issues/18)
+[More details on --cov-cutoff parameter (this should be handled with care)](https://github.com/ablab/spades/issues/18)
 
 :heavy_check_mark: SPAdes: 4.0.0
 
@@ -118,7 +118,8 @@ Plasmid replicon types were screened against the PlasmidFinder_DB database using
 The annotation was done using [Bakta](https://github.com/oschwengers/bakta)
 
 ```
-#Bakta database needs to be downloaded manually per installation instruction and kept in bakta_db directory 
+#Bakta database needs to be downloaded manually per installation instruction and kept in bakta_db directory
+
 % bakta --db [bakta_db] --prefix [file_name] --output [out_dir] --keep-contig-headers --genus Escherichia -v [assembly] -t [threads]
 ```
 :heavy_check_mark: bakta: 1.10.3
@@ -129,8 +130,13 @@ Pangenome calculation was done using [Panaroo](https://github.com/gtonkinhill/pa
 ```
 % panaroo -i [input_gff3_files] -o [out_dir] --clean-mode strict --remove-invalid-genes -a core
 
---clean-mode: The stringency mode at which to run panaroo. Must be one of 'strict','moderate' or 'sensitive'. Each of these modes can be fine tuned using the additional parameters in the 'Graph correction' section. strict: Requires fairly strong evidence (present in  at least 5% of genomes) to keep likely contaminant genes. Will remove genes that are refound more often than they were called originally.
+--clean-mode: The stringency mode at which to run panaroo. Must be one of 'strict','moderate' or 'sensitive'.
+Each of these modes can be fine tuned using the additional parameters in the 'Graph correction' section.
+strict: Requires fairly strong evidence (present in  at least 5% of genomes) to keep likely contaminant genes.
+Will remove genes that are refound more often than they were called originally.
+
 --remove-invalid-genes: removes annotations that do not conform to the expected Prokka format such as those including premature stop codons.
+
 -a: Output alignments of core genes or all genes. Options are 'core' and 'pan'. Default: 'None'
 #Aligner: default 'mafft'
 ```
@@ -140,7 +146,10 @@ Pangenome calculation was done using [Panaroo](https://github.com/gtonkinhill/pa
 The phylogenetic tree was constructed using IQTree 
 
 ```
-#Due to large number of samples and limited computing capacity, the model GTR+F+R7 was chosen in prior instead of running model search by ModelFinder (-m MFP). The limits for memory and cores usage were 54G (-mem) and 18 (-ntmax), respectively. Safe numerical mode (-safe) was turned on to avoid numerical underflow for large data sets with many sequences (this mode is automatically turned on when having more than 2000 sequences)
+#Due to large number of samples and limited computing capacity, the model GTR+F+R7 was chosen in prior instead of running model search by ModelFinder (-m MFP).
+#The limits for memory and cores usage were 54G (-mem) and 18 (-ntmax), respectively.
+#Safe numerical mode (-safe) was turned on to avoid numerical underflow for large data sets with many sequences
+
 % iqtree -s [msa.aln] -pre [file_prefix] -m GTR+F+R7 -bb 1000 -alrt 1000 -nt AUTO -mem 54G -ntmax 18 -safe
 
 -bb: number of bootstrap replicates
