@@ -1,7 +1,21 @@
 # 52HN - Evolutionary dynamics of _Escherichia coli_ in Vietnam
 **Bioinformatics workflow of _E. coli_ whole-genome data, collected as part of the 52HN project**
 
-# Different steps
+# Steps
+1. [Species identification](#Species-identification)
+2. [Quality control](#Quality-control)
+3. [Assembly](#Assembly)
+4. [Quality control of the assembly](#Quality-control-of-thre-assembly)
+5. [Serotype](#Serotype)
+6. [MLST](#MLST)
+7. [Phylogroup](#Phylogroup)
+8. [Virulence genes typing](#Virulence-genes-typing)
+9. [Resistance genes typing](#Resistance-genes-typing)
+10. [Plasmid](#Plasmid)
+11. [Annotation](#Annotation)
+12. [Pan-genome investigation](#Pan-genome-investigation)
+13. [Phylogenomic inference](#Phylogenomic-inference)
+14. [Results](#Results)
 
 ## Species identification 
 Species identification was conducted using Mash 
@@ -122,7 +136,7 @@ Pangenome calculation was done using [Panaroo](https://github.com/gtonkinhill/pa
 ```
 :heavy_check_mark: Panaroo: 1.5.1
 
-##Phylogenomic inference
+## Phylogenomic inference
 The phylogenetic tree was constructed using IQTree 
 
 ```
