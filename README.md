@@ -25,10 +25,10 @@ Species identification was conducted using Mash
 Used database for screening: [RefSeq88n.msh.gz](https://obj.umiacs.umd.edu/mash/screen/RefSeq88n.msh.gz)
 
 ```
-% mash screen  -p [threads] RefSeq88n.msh.gz [sample] > mash_output.tab
+mash screen  -p [threads] RefSeq88n.msh.gz [sample] > mash_output.tab
 # Extracting the top 10 hits 
-% sort -gr mash_output.tab -o mash_output_sort.tab
-% head -n 10 mash_output_sor.tab > mash_output_top10.tab
+sort -gr mash_output.tab -o mash_output_sort.tab
+head -n 10 mash_output_sor.tab > mash_output_top10.tab
 ```
 
 Three genomes were identified as non _E.coli_: 17.6a, 17.6b, 17.6c
@@ -40,7 +40,7 @@ Quality control was done by [FastQC](https://www.bioinformatics.babraham.ac.uk/p
 [Fastp](https://github.com/OpenGene/fastp) was used for filtering reads with more than 30% of bases with Phred score below 15 and/or reads with more than 5 N-bases. Adapters trimming is disabled.
 
 ```
-% fastp -i [input.read1] -I [input.read2] -o [output.fastp1] -O [output.fastp2] -q 15 -u 30 -n 5 -A
+fastp -i [input.read1] -I [input.read2] -o [output.fastp1] -O [output.fastp2] -q 15 -u 30 -n 5 -A
 ```
 :heavy_check_mark: FastQC: 0.11.5
 :heavy_check_mark: Fastp: 0.24.0
@@ -50,7 +50,7 @@ The assembly was done with [SPAdes v4.0.0](https://ablab.github.io/spades/) usin
 
 [Page AJ, De Silva N, Hunt M, Quail MA, Parkhill J, Harris SR, Otto TD, Keane JA. Robust high-throughput prokaryote de novo assembly and improvement pipeline for Illumina data. Microb Genom. 2016 Aug 25;2(8):e000083. doi: 10.1099/mgen.0.000083. PMID: 28348874; PMCID: PMC5320598.](https://doi.org/10.1099/mgen.0.000083)
 ```
-% spades.py --isolate -1 [read1] -2 [read2] -o [output] --threads [threads] -k 21,35,55,71,91,111 --cov-cutoff auto
+spades.py --isolate -1 [read1] -2 [read2] -o [output] --threads [threads] -k 21,35,55,71,91,111 --cov-cutoff auto
 
 --isolate: This flag is highly recommended for high-coverage isolate and multi-cell Illumina data; improves the assembly quality and running time.
 
@@ -65,11 +65,11 @@ The assembly was done with [SPAdes v4.0.0](https://ablab.github.io/spades/) usin
 2. Assemblies' completeness were assessed using [BUSCO](https://busco.ezlab.org/) against database enterobacteriaceae_odb12
 ```
 # Batch mode
-% busco -i [inputs.directory] -m geno -l enterobacteriaceae_odb12 -c [threads] 
+busco -i [inputs.directory] -m geno -l enterobacteriaceae_odb12 -c [threads] 
 ```
 3. Assembly filtration: contigs with coverage lower than 1 were discarded using [SeqKit](https://bioinf.shenwei.me/seqkit/)
 ```
-% seqkit fx2tab [assembly] | csvtk mutate -H -t -f 1 -p "cov_(.+)" | awk -F "\t" '$4>=1' | seqkit tab2fx > filtered_assembly.fasta
+seqkit fx2tab [assembly] | csvtk mutate -H -t -f 1 -p "cov_(.+)" | awk -F "\t" '$4>=1' | seqkit tab2fx > filtered_assembly.fasta
 ```
 :heavy_check_mark: BUSCO: 5.8.2
 :heavy_check_mark: seqkit: v2.8.2
@@ -100,7 +100,7 @@ The virulenece genes were screen against the curated database "Septicoli" using 
 The resistance genes were screened against the NCBI database using [AMRfinderplus](https://github.com/ncbi/amr) 
 
 ```
-% amrfinder -n [assembly] --organism Escherichia --threads [threads] --plus --name [prefix] > output.tab
+amrfinder -n [assembly] --organism Escherichia --threads [threads] --plus --name [prefix] > output.tab
 ```
 
 :heavy_check_mark: amrfinder: 4.0.3
@@ -109,7 +109,7 @@ The resistance genes were screened against the NCBI database using [AMRfinderplu
 Plasmid replicon types were screened against the PlasmidFinder_DB database using [Abricate](https://github.com/tseemann/abricate) with thresholds --minid 80 and --mincov 90. 
 
 ```
-% abricate --fofn [file of file names] --db plasmidfinder > output.tab
+abricate --fofn [file of file names] --db plasmidfinder > output.tab
 ```
 
 :heavy_check_mark: abricate: 1.0.1
@@ -120,7 +120,7 @@ The annotation was done using [Bakta](https://github.com/oschwengers/bakta)
 ```
 #Bakta database needs to be downloaded manually per installation instruction and kept in bakta_db directory
 
-% bakta --db [bakta_db] --prefix [file_name] --output [out_dir] --keep-contig-headers --genus Escherichia -v [assembly] -t [threads]
+bakta --db [bakta_db] --prefix [file_name] --output [out_dir] --keep-contig-headers --genus Escherichia -v [assembly] -t [threads]
 ```
 :heavy_check_mark: bakta: 1.10.3
 
@@ -128,7 +128,7 @@ The annotation was done using [Bakta](https://github.com/oschwengers/bakta)
 Pangenome calculation was done using [Panaroo](https://github.com/gtonkinhill/panaroo)
 
 ```
-% panaroo -i [input_gff3_files] -o [out_dir] --clean-mode strict --remove-invalid-genes -a core
+panaroo -i [input_gff3_files] -o [out_dir] --clean-mode strict --remove-invalid-genes -a core
 
 --clean-mode: The stringency mode at which to run panaroo. Must be one of 'strict','moderate' or 'sensitive'.
 Each of these modes can be fine tuned using the additional parameters in the 'Graph correction' section.
@@ -150,7 +150,7 @@ The phylogenetic tree was constructed using IQTree
 #The limits for memory and cores usage were 54G (-mem) and 18 (-ntmax), respectively.
 #Safe numerical mode (-safe) was turned on to avoid numerical underflow for large data sets with many sequences
 
-% iqtree -s [msa.aln] -pre [file_prefix] -m GTR+F+R7 -bb 1000 -alrt 1000 -nt AUTO -mem 54G -ntmax 18 -safe
+iqtree -s [msa.aln] -pre [file_prefix] -m GTR+F+R7 -bb 1000 -alrt 1000 -nt AUTO -mem 54G -ntmax 18 -safe
 
 -bb: number of bootstrap replicates
 -alrt: number of replicates to perform SH-like
