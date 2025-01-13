@@ -51,11 +51,11 @@ The assembly was done with [SPAdes v4.0.0](https://ablab.github.io/spades/) usin
 [Page AJ, De Silva N, Hunt M, Quail MA, Parkhill J, Harris SR, Otto TD, Keane JA. Robust high-throughput prokaryote de novo assembly and improvement pipeline for Illumina data. Microb Genom. 2016 Aug 25;2(8):e000083. doi: 10.1099/mgen.0.000083. PMID: 28348874; PMCID: PMC5320598.](https://doi.org/10.1099/mgen.0.000083)
 ```
 spades.py --isolate -1 [read1] -2 [read2] -o [output] --threads [threads] -k 21,35,55,71,91,111 --cov-cutoff auto
-
+```
 --isolate: This flag is highly recommended for high-coverage isolate and multi-cell Illumina data; improves the assembly quality and running time.
 
 --cov-cutoff: Read coverage cutoff value. Must be a positive float value, or "auto", or "off". Default value is "off". When set to "auto" SPAdes automatically computes coverage threshold using conservative strategy.
-```
+
 [More details on --cov-cutoff parameter (this should be handled with care)](https://github.com/ablab/spades/issues/18)
 
 :heavy_check_mark: SPAdes: 4.0.0
@@ -129,7 +129,7 @@ Pangenome calculation was done using [Panaroo](https://github.com/gtonkinhill/pa
 
 ```
 panaroo -i [input_gff3_files] -o [out_dir] --clean-mode strict --remove-invalid-genes -a core
-
+```
 --clean-mode: The stringency mode at which to run panaroo. Must be one of 'strict','moderate' or 'sensitive'.
 Each of these modes can be fine tuned using the additional parameters in the 'Graph correction' section.
 strict: Requires fairly strong evidence (present in  at least 5% of genomes) to keep likely contaminant genes.
@@ -139,7 +139,7 @@ Will remove genes that are refound more often than they were called originally.
 
 -a: Output alignments of core genes or all genes. Options are 'core' and 'pan'. Default: 'None'
 #Aligner: default 'mafft'
-```
+
 :heavy_check_mark: Panaroo: 1.5.1
 
 ## Phylogenomic inference
@@ -151,10 +151,10 @@ The phylogenetic tree was constructed using IQTree
 #Safe numerical mode (-safe) was turned on to avoid numerical underflow for large data sets with many sequences
 
 iqtree -s [msa.aln] -pre [file_prefix] -m GTR+F+R7 -bb 1000 -alrt 1000 -nt AUTO -mem 54G -ntmax 18 -safe
-
+```
 -bb: number of bootstrap replicates
 -alrt: number of replicates to perform SH-like
-```
+
 :heavy_check_mark: IQTree: 1.6.12
 
 ## Results
