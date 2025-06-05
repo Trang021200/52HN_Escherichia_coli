@@ -146,16 +146,17 @@ Will remove genes that are refound more often than they were called originally.
 The phylogenetic tree was constructed using IQTree 
 
 ```
-#Due to large number of samples and limited computing capacity, the model GTR+F+R7 was chosen in prior instead of running model search by ModelFinder (-m MFP).
-#The limits for memory and cores usage were 54G (-mem) and 18 (-ntmax), respectively.
+#A phylogenetic inference was conducted for 241 genomes from samples isolated from participants of the same households. Evolutionary model - GTR+F+I+R10 - was chosen using ModelFinder (-m MFP)
 #Safe numerical mode (-safe) was turned on to avoid numerical underflow for large data sets with many sequences
+iqtree3_intel -s [msa.aln] --prefix [file_prefix] -m MFP -B 1000 -T AUTO --mem [memory_limit] --threads-max [threads] --safe
 
-iqtree -s [msa.aln] -pre [file_prefix] -m GTR+F+R7 -bb 1000 -alrt 1000 -nt AUTO -mem 54G -ntmax 18 -safe
+#A phylogenetic inference for the entire collection was done using the GTR+F+I+R10 model for consistency.
+
+iqtree3_intel -s [msa.aln] --prefix [file_prefix] -m GTR+F+I+R10 -B 1000 -T AUTO --mem [memory_limit] --threads-max [threads] --safe
 ```
--bb: number of bootstrap replicates
--alrt: number of replicates to perform SH-like
+-B: number of bootstrap replicates using UFBoot
 
-:heavy_check_mark: IQTree: 1.6.12
+:heavy_check_mark: IQTree: 3.0.1
 
 ## Results
 
